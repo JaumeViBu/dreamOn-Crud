@@ -1,9 +1,10 @@
 //globals
-const listItems = [];
+let listItems;
 
 let nextId = 0;//autoIncrement Id
 let mode = 'add';
 let workingOn = null;
+let defaultImg = './img/test.png'
 
 //dom elements globals
 const inputValue = document.getElementById('inItem');
@@ -15,6 +16,7 @@ const btnSave = document.getElementById('btnSave');
 const btnCancel = document.getElementById('btnCancel');
 
 //eventListeners
+//enter press on inputValue
 inputValue.addEventListener('keypress', (e) => {
   if (e.key == 'Enter' && mode == 'add') {
     addItem();
@@ -23,10 +25,24 @@ inputValue.addEventListener('keypress', (e) => {
     confirmUpdateItem();
   }
 });
+//enter press on inputImg
+inputImg.addEventListener('keypress', (e) => {
+  if (e.key == 'Enter' && mode == 'addImg') {
+    addImg();
+  }
+});
 
-//Entry point
-renderList();
+//page on DOMContentLoaded -> load from localStorage
+document.addEventListener('DOMContentLoaded', () => {
+  listItems = retrieveItems();
+  renderList();
+});
 
+//page on beforeunload -> save to localStorage
+window.addEventListener('beforeunload', () => {
+  console.log('before')
+  storeItems();
+});
 
 
 
@@ -52,12 +68,32 @@ function listToHtml() {
 
   for (const item of listItems) {
 
-    template += /*html*/`<li><img id="img-${item.id}"class="itemImg" src="${item.imgUrl == '' ? './img/test.png' : item.imgUrl}"/>${item.value}<button class='btn btnDelete' onclick="deleteItem(${item.id})">Borrar</button > <button class='btn btnEdit' onclick="updateItem(${item.id})">Editar</button></li > `;
+    template += /*html*/`<li><img id="img-${item.id}"class="itemImg" src="${item.imgUrl == '' ? defaultImg : item.imgUrl}"/>${item.value}<button class='btn btnDelete' onclick="deleteItem(${item.id})">Borrar</button > <button class='btn btnEdit' onclick="updateItem(${item.id})">Editar</button></li > `;
   }
 
-
-
   return template;
+}
+
+/* --------------------------------------- */
+/*          Functions - Storage            */
+/* --------------------------------------- */
+
+/**
+ * Returns the data stored on localStorage, if nothing found returns empty array
+ * @returns 
+ */
+function retrieveItems() {
+  const data = localStorage.getItem('crud-items-data');
+  return data == null ? [] : JSON.parse(data);
+}
+
+/**
+ * Stores the contents of listItems in the localStorage
+ *
+ */
+function storeItems() {
+
+  localStorage.setItem('crud-items-data', JSON.stringify(listItems));
 }
 
 /* --------------------------------------- */
@@ -71,11 +107,12 @@ function listToHtml() {
  */
 function addItem() {
 
-  changeModeTo('addImg');
   if (inputValue.value.trim() == '') return;
+  changeModeTo('addImg');
 
   const itemValue = inputValue.value.trim();
   workingOn = itemValue;
+  inputImg.focus();
 }
 
 /**
@@ -90,6 +127,7 @@ function addImg() {
   inputValue.value = '';
   renderList();
   changeModeTo('add');
+  inputValue.focus();
 }
 
 /**
@@ -110,6 +148,7 @@ function deleteItem(id) {
     }
   }
   renderList();
+  inputValue.focus();
 }
 
 /**
@@ -126,6 +165,7 @@ function updateItem(id) {
   inputValue.value = item.value;
   changeModeTo('update');
   workingOn = id;
+  inputValue.focus();
 }
 
 /**
@@ -151,94 +191,38 @@ function getItemById(id) {
 function changeModeTo(newMode) {
   if (mode === newMode) return;//nothing to do
   mode = newMode;
-  if (mode === 'add') enableAddBtns();
-  if (mode === 'addImg') enableAddImgBtns();
-  if (mode === 'update') enableUpdateBtns();
+  // if (mode === 'add') enableAddBtns();
+  // if (mode === 'addImg') enableAddImgBtns();
+  // if (mode === 'update') enableUpdateBtns();
+  enableBtns();
 }
 
 /**
- * Enable the btns of add mode, while enabling the list buttons and hiding all the others
- *
+ * Enable or disavle buttons based on the actual mode
  */
-function enableAddBtns() {
+function enableBtns() {
+
   for (const btn of document.querySelectorAll('button')) {
-    btn.disabled = false;
+    btn.disabled = mode === 'add' ? false : true;
   }
-  btnAdd.classList.remove('d-none');
-  btnAdd.classList.add('d-block');
-  btnCancel.classList.remove('d-block');
-  btnCancel.classList.add('d-none');
-  btnSave.classList.remove('d-block');
-  btnSave.classList.add('d-none');
-  btnAddImg.classList.remove('d-block');
-  btnAddImg.classList.add('d-none');
+  btnAdd.classList.remove(mode === 'update' ? 'd-block' : 'd-none');
+  btnAdd.classList.add(mode === 'update' ? 'd-none' : 'd-block');
+  btnCancel.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
+  btnCancel.classList.add(mode === 'update' ? 'd-block' : 'd-none');
+  btnSave.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
+  btnSave.classList.add(mode === 'update' ? 'd-block' : 'd-none');
+  btnAddImg.classList.remove(mode === 'addImg' ? 'd-none' : 'd-block');
+  btnAddImg.classList.add(mode === 'addImg' ? 'd-block' : 'd-none');
 
-  btnSave.disabled = true;
-  btnCancel.disabled = true;
-  btnAddImg.disabled = true;
+  btnSave.disabled = mode !== 'update';
+  btnCancel.disabled = mode !== 'update';
+  btnAddImg.disabled = mode !== 'addImg';
 
-  inputValue.classList.remove('d-none');
-  inputValue.classList.add('d-block');
-  inputImg.classList.remove('d-block');
-  inputImg.classList.add('d-none');
+  inputValue.classList.remove(mode === 'addImg' ? 'd-block' : 'd-none');
+  inputValue.classList.add(mode === 'addImg' ? 'd-none' : 'd-block');
+  inputImg.classList.remove(mode === 'addImg' ? 'd-none' : 'd-block');
+  inputImg.classList.add(mode === 'addImg' ? 'd-block' : 'd-none');
 }
-
-/**
- * Enable the btns of update mode, while disabling the list buttons and disabling all the others
- *
- */
-function enableUpdateBtns() {
-  for (const btn of document.querySelectorAll('button')) {
-    btn.disabled = true;
-  }
-  btnAdd.classList.remove('d-block');
-  btnAdd.classList.add('d-none');
-  btnCancel.classList.remove('d-none');
-  btnCancel.classList.add('d-block');
-  btnSave.classList.remove('d-none');
-  btnSave.classList.add('d-block');
-  btnAddImg.classList.remove('d-block');
-  btnAddImg.classList.add('d-none');
-
-  btnSave.disabled = false;
-  btnCancel.disabled = false;
-  btnAddImg.disabled = true;
-
-  inputValue.classList.remove('d-none');
-  inputValue.classList.add('d-block');
-  inputImg.classList.remove('d-block');
-  inputImg.classList.add('d-none');
-
-}
-
-/**
- * Enable the btns of addurl mode, while disabling the list buttons and disabling all the others
- *
- */
-function enableAddImgBtns() {
-  for (const btn of document.querySelectorAll('button')) {
-    btn.disabled = true;
-  }
-  btnAdd.classList.remove('d-none');
-  btnAdd.classList.add('d-block');
-  btnCancel.classList.remove('d-block');
-  btnCancel.classList.add('d-none');
-  btnSave.classList.remove('d-block');
-  btnSave.classList.add('d-none');
-  btnAddImg.classList.remove('d-none');
-  btnAddImg.classList.add('d-block');
-
-  btnSave.disabled = true;
-  btnCancel.disabled = true;
-  btnAddImg.disabled = false;
-
-  inputValue.classList.add('d-none');
-  inputValue.classList.remove('d-block');
-  inputImg.classList.add('d-block');
-  inputImg.classList.remove('d-none');
-}
-
-
 
 /**
  * Change the mode back to add from update, and resets input and workingOn values
