@@ -1,22 +1,23 @@
+//globals
 const listItems = [];
 
-let nextId = 0;
-let mode = 'normal';
+let nextId = 0;//autoIncrement Id
+let mode = 'add';
 let workingOn = null;
 
-//dom elements
+//dom elements globals
 const input = document.getElementById('inItem');
 const listdom = document.getElementById('listdom');
 const btnAdd = document.getElementById('btnAdd');
 const btnSave = document.getElementById('btnSave');
 const btnCancel = document.getElementById('btnCancel');
 
-
+//Entry point
 renderList();
 
 //eventListeners
 input.addEventListener('keypress', (e) => {
-  if (e.key == 'Enter' && mode == 'normal') {
+  if (e.key == 'Enter' && mode == 'add') {
     addItem();
   }
   if (e.key == 'Enter' && mode == 'update') {
@@ -95,7 +96,7 @@ function deleteItem(id) {
 function updateItem(id) {
 
   if (typeof id != 'number') throw new Error('id must be a number');
-  if (mode === 'normal') changeModeTo('update');
+  if (mode === 'add') changeModeTo('update');
   else return;
   let item = getItemById(id);
   input.value = item.value;
@@ -119,22 +120,22 @@ function getItemById(id) {
 }
 
 /**
- * Change mode between normal and update, disabling or enabling
+ * Change the mode of the app, disabling or enabling
  * all buttons in the page accordingly
  *
  */
 function changeModeTo(newMode) {
   if (mode === newMode) return;//nothing to do
   mode = newMode;
-  if (mode === 'normal') enableNormalBtns();
+  if (mode === 'add') enableAddBtns();
   if (mode === 'update') enableUpdateBtns();
 }
 
 /**
- * Enable the btns of normal mode, while disabling those of update mode
+ * Enable the btns of add mode, while enabling the list buttons and hiding all the others
  *
  */
-function enableNormalBtns() {
+function enableAddBtns() {
   for (const btn of document.querySelectorAll('button')) {
     btn.disabled = false;
   }
@@ -150,7 +151,7 @@ function enableNormalBtns() {
 }
 
 /**
- * Enable the btns of update mode, while disabling those of normal mode
+ * Enable the btns of update mode, while disabling the list buttons and disabling all the others
  *
  */
 function enableUpdateBtns() {
@@ -169,12 +170,12 @@ function enableUpdateBtns() {
 }
 
 /**
- * Change the mode back to normal from update, and resets input and workingOn values
+ * Change the mode back to add from update, and resets input and workingOn values
  *
  */
 function cancelUpdateItem() {
 
-  changeModeTo('normal');
+  changeModeTo('add');
   input.value = '';
   workingOn = null;
 }
