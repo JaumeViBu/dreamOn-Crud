@@ -6,17 +6,16 @@ let mode = 'add';
 let workingOn = null;
 
 //dom elements globals
-const input = document.getElementById('inItem');
+const inputValue = document.getElementById('inItem');
+const inputImg = document.getElementById('inImageUrl');
 const listdom = document.getElementById('listdom');
 const btnAdd = document.getElementById('btnAdd');
+const btnAddImg = document.getElementById('btnAddUrl');
 const btnSave = document.getElementById('btnSave');
 const btnCancel = document.getElementById('btnCancel');
 
-//Entry point
-renderList();
-
 //eventListeners
-input.addEventListener('keypress', (e) => {
+inputValue.addEventListener('keypress', (e) => {
   if (e.key == 'Enter' && mode == 'add') {
     addItem();
   }
@@ -25,24 +24,15 @@ input.addEventListener('keypress', (e) => {
   }
 });
 
+//Entry point
+renderList();
+
+
+
+
 /* --------------------------------------- */
-/*          Funciones                      */
+/*          Functions - Render             */
 /* --------------------------------------- */
-
-/**
- * Add the item in the input to listItems
- * If input is empty do nothing
- */
-function addItem() {
-
-  if (input.value.trim() == '') return;
-
-  const item = input.value.trim();
-
-  listItems.push({ id: nextId++, value: item });
-  input.value = '';
-  renderList();
-}
 
 /**
  * Renders the contents of list
@@ -62,10 +52,44 @@ function listToHtml() {
 
   for (const item of listItems) {
 
-    template += `<li>${item.value}<button class='btn btnDelete' onclick="deleteItem(${item.id})">Borrar</button><button class='btn btnEdit' onclick="updateItem(${item.id})">Editar</button></li>`;
+    template += /*html*/`<li><img id="img-${item.id}"class="itemImg" src="${item.imgUrl == '' ? './img/test.png' : item.imgUrl}"/>${item.value}<button class='btn btnDelete' onclick="deleteItem(${item.id})">Borrar</button > <button class='btn btnEdit' onclick="updateItem(${item.id})">Editar</button></li > `;
   }
 
+
+
   return template;
+}
+
+/* --------------------------------------- */
+/*          Functions - Logic              */
+/* --------------------------------------- */
+
+/**
+ * Get the value of the input and added 
+ * save it to workingOn 
+ * If input is empty do nothing
+ */
+function addItem() {
+
+  changeModeTo('addImg');
+  if (inputValue.value.trim() == '') return;
+
+  const itemValue = inputValue.value.trim();
+  workingOn = itemValue;
+}
+
+/**
+ * get the value 
+ *
+ */
+function addImg() {
+  if (mode == 'addImg') {
+
+    listItems.push({ id: nextId++, value: workingOn, imgUrl: inputImg.value });
+  }
+  inputValue.value = '';
+  renderList();
+  changeModeTo('add');
 }
 
 /**
@@ -99,7 +123,7 @@ function updateItem(id) {
   if (mode === 'add') changeModeTo('update');
   else return;
   let item = getItemById(id);
-  input.value = item.value;
+  inputValue.value = item.value;
   changeModeTo('update');
   workingOn = id;
 }
@@ -128,6 +152,7 @@ function changeModeTo(newMode) {
   if (mode === newMode) return;//nothing to do
   mode = newMode;
   if (mode === 'add') enableAddBtns();
+  if (mode === 'addImg') enableAddImgBtns();
   if (mode === 'update') enableUpdateBtns();
 }
 
@@ -145,9 +170,17 @@ function enableAddBtns() {
   btnCancel.classList.add('d-none');
   btnSave.classList.remove('d-block');
   btnSave.classList.add('d-none');
+  btnAddImg.classList.remove('d-block');
+  btnAddImg.classList.add('d-none');
 
   btnSave.disabled = true;
   btnCancel.disabled = true;
+  btnAddImg.disabled = true;
+
+  inputValue.classList.remove('d-none');
+  inputValue.classList.add('d-block');
+  inputImg.classList.remove('d-block');
+  inputImg.classList.add('d-none');
 }
 
 /**
@@ -164,10 +197,48 @@ function enableUpdateBtns() {
   btnCancel.classList.add('d-block');
   btnSave.classList.remove('d-none');
   btnSave.classList.add('d-block');
+  btnAddImg.classList.remove('d-block');
+  btnAddImg.classList.add('d-none');
 
   btnSave.disabled = false;
   btnCancel.disabled = false;
+  btnAddImg.disabled = true;
+
+  inputValue.classList.remove('d-none');
+  inputValue.classList.add('d-block');
+  inputImg.classList.remove('d-block');
+  inputImg.classList.add('d-none');
+
 }
+
+/**
+ * Enable the btns of addurl mode, while disabling the list buttons and disabling all the others
+ *
+ */
+function enableAddImgBtns() {
+  for (const btn of document.querySelectorAll('button')) {
+    btn.disabled = true;
+  }
+  btnAdd.classList.remove('d-none');
+  btnAdd.classList.add('d-block');
+  btnCancel.classList.remove('d-block');
+  btnCancel.classList.add('d-none');
+  btnSave.classList.remove('d-block');
+  btnSave.classList.add('d-none');
+  btnAddImg.classList.remove('d-none');
+  btnAddImg.classList.add('d-block');
+
+  btnSave.disabled = true;
+  btnCancel.disabled = true;
+  btnAddImg.disabled = false;
+
+  inputValue.classList.add('d-none');
+  inputValue.classList.remove('d-block');
+  inputImg.classList.add('d-block');
+  inputImg.classList.remove('d-none');
+}
+
+
 
 /**
  * Change the mode back to add from update, and resets input and workingOn values
@@ -176,7 +247,7 @@ function enableUpdateBtns() {
 function cancelUpdateItem() {
 
   changeModeTo('add');
-  input.value = '';
+  inputValue.value = '';
   workingOn = null;
 }
 
@@ -185,9 +256,9 @@ function cancelUpdateItem() {
  *
  */
 function confirmUpdateItem() {
-  if (input.value.trim() == '') return;
+  if (inputValue.value.trim() == '') return;
   const item = getItemById(workingOn);
-  item.value = input.value;
+  item.value = inputValue.value;
   cancelUpdateItem();
   renderList();
 }

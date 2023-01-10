@@ -54,7 +54,7 @@ input {
   outline: none;
   background-color: #ccc;
   border-radius: 5px;
-  width: 30rem;
+  width: 60%;
   border-top: 1px solid #aaa;
 }
 
@@ -78,4 +78,10 @@ li {
 
 .d-block {
   display: block;
+}
+
+.itemImg {
+  width: 3rem;
+  height: 3rem;
+  object-fit: cover;
 }
