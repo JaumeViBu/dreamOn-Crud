@@ -39,7 +39,7 @@ inputImg.addEventListener('keypress', (e) => {
 //page on DOMContentLoaded -> load from localStorage
 document.addEventListener('DOMContentLoaded', () => {
   ({ nextId, items } = retrieveItems());
-  listItems = items;
+  listItems = items ? items : [];
   nextId = listItems.length == 0 ? 0 : nextId;
   render();
 });
