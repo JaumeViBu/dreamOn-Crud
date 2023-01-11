@@ -1,6 +1,6 @@
 # Un ejercicio para crear un CRUD simple, en vanilla js
 
-## [Demo](https://jaumevibu.github.io/simple-crud/)
+## [Demo](https://jaumevibu.github.io/dreamOn-Crud/)
 
 TODO
 
