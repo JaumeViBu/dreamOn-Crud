@@ -40,7 +40,8 @@ inputImg.addEventListener('keypress', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   ({ nextId, items } = retrieveItems());
   listItems = items;
-  renderList();
+  nextId = listItems.length == 0 ? 0 : nextId;
+  render();
 });
 
 //page on beforeunload -> save to localStorage
@@ -58,7 +59,7 @@ window.addEventListener('beforeunload', () => {
 /**
  * Renders the contents of list
  */
-function renderList() {
+function render() {
 
   listdom.innerHTML = listToHtml();
 }
@@ -134,7 +135,7 @@ function addItem() {
   inputValue.value = '';
   inputImg.value = '';
   inputValue.focus();
-  renderList();
+  render();
   changeModeTo('add');
 }
 
@@ -155,7 +156,7 @@ function deleteItem(id) {
       listItems.splice(i, 1);
     }
   }
-  renderList();
+  render();
   inputValue.focus();
 }
 
@@ -171,6 +172,7 @@ function updateItem(id) {
   else return;
   let item = getItemById(id);
   inputValue.value = item.value;
+  inputImg.value = item.imgUrl;
   changeModeTo('update');
   workingOn = id;
   inputValue.focus();
@@ -216,17 +218,9 @@ function enableBtns() {
   btnCancel.classList.add(mode === 'update' ? 'd-block' : 'd-none');
   btnSave.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
   btnSave.classList.add(mode === 'update' ? 'd-block' : 'd-none');
-  btnAddImg.classList.remove(mode === 'addImg' ? 'd-none' : 'd-block');
-  btnAddImg.classList.add(mode === 'addImg' ? 'd-block' : 'd-none');
 
   btnSave.disabled = mode !== 'update';
   btnCancel.disabled = mode !== 'update';
-  btnAddImg.disabled = mode !== 'addImg';
-
-  // inputValue.classList.remove(mode === 'addImg' ? 'd-block' : 'd-none');
-  // inputValue.classList.add(mode === 'addImg' ? 'd-none' : 'd-block');
-  // inputImg.classList.remove(mode === 'addImg' ? 'd-none' : 'd-block');
-  // inputImg.classList.add(mode === 'addImg' ? 'd-block' : 'd-none');
 }
 
 /**
@@ -237,6 +231,7 @@ function cancelUpdateItem() {
 
   changeModeTo('add');
   inputValue.value = '';
+  inputImg.value = '';
   workingOn = null;
 }
 
@@ -247,7 +242,9 @@ function cancelUpdateItem() {
 function confirmUpdateItem() {
   if (inputValue.value.trim() == '') return;
   const item = getItemById(workingOn);
-  item.value = inputValue.value;
+  item.value = inputValue.value.trim();
+  item.imgUrl = inputImg.value.trim();
+
   cancelUpdateItem();
-  renderList();
+  render();
 }
