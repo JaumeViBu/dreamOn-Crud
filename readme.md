@@ -27,3 +27,4 @@ Iteracion 3
 
 - [ ] añadir input filtro
 - [ ] refactorizar: el form de añadir este oculto hasta pulsar boton/icono
+- [x] corregir nextId con persistencia...

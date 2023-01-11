@@ -1,10 +1,10 @@
 //globals
 let listItems;
-
 let nextId = 0;//autoIncrement Id
 let mode = 'add';
 let workingOn = null;
 let defaultImg = './img/test.png'
+const DEBUGMODE = true;
 
 //dom elements globals
 const inputValue = document.getElementById('inItem');
@@ -25,16 +25,21 @@ inputValue.addEventListener('keypress', (e) => {
     confirmUpdateItem();
   }
 });
+
 //enter press on inputImg
 inputImg.addEventListener('keypress', (e) => {
-  if (e.key == 'Enter' && mode == 'addImg') {
-    addImg();
+  if (e.key == 'Enter' && mode == 'add') {
+    addItem();
+  }
+  if (e.key == 'Enter' && mode == 'update') {
+    confirmUpdateItem();
   }
 });
 
 //page on DOMContentLoaded -> load from localStorage
 document.addEventListener('DOMContentLoaded', () => {
-  listItems = retrieveItems();
+  ({ nextId, items } = retrieveItems());
+  listItems = items;
   renderList();
 });
 
@@ -68,7 +73,7 @@ function listToHtml() {
 
   for (const item of listItems) {
 
-    template += /*html*/`<li><img id="img-${item.id}"class="itemImg" src="${item.imgUrl == '' ? defaultImg : item.imgUrl}"/>${item.value}<button class='btn btnDelete' onclick="deleteItem(${item.id})">Borrar</button > <button class='btn btnEdit' onclick="updateItem(${item.id})">Editar</button></li > `;
+    template += /*html*/`<li><img id="img-${item.id}"class="itemImg" src="${item.imgUrl == '' ? defaultImg : item.imgUrl}"/>${DEBUGMODE ? `id: ${item.id} - ` : ''}${item.value}<button class='btn btnDelete' onclick="deleteItem(${item.id})">Borrar</button > <button class='btn btnEdit' onclick="updateItem(${item.id})">Editar</button></li > `;
   }
 
   return template;
@@ -93,7 +98,11 @@ function retrieveItems() {
  */
 function storeItems() {
 
-  localStorage.setItem('crud-items-data', JSON.stringify(listItems));
+  const data = {
+    nextId: nextId,
+    items: listItems
+  }
+  localStorage.setItem('crud-items-data', JSON.stringify(data));
 }
 
 /* --------------------------------------- */
@@ -108,26 +117,25 @@ function storeItems() {
 function addItem() {
 
   if (inputValue.value.trim() == '') return;
-  changeModeTo('addImg');
 
   const itemValue = inputValue.value.trim();
-  workingOn = itemValue;
-  inputImg.focus();
-}
+  const itemImg = inputImg.value.trim();
+  inputValue.focus();
+  if (mode == 'add') {
+    listItems.push({
+      id: nextId++,
+      value: itemValue,
+      imgUrl: itemImg,
+    });
+  } else if (mode == 'update') {
 
-/**
- * get the value 
- *
- */
-function addImg() {
-  if (mode == 'addImg') {
-
-    listItems.push({ id: nextId++, value: workingOn, imgUrl: inputImg.value });
   }
+
   inputValue.value = '';
+  inputImg.value = '';
+  inputValue.focus();
   renderList();
   changeModeTo('add');
-  inputValue.focus();
 }
 
 /**
@@ -191,9 +199,6 @@ function getItemById(id) {
 function changeModeTo(newMode) {
   if (mode === newMode) return;//nothing to do
   mode = newMode;
-  // if (mode === 'add') enableAddBtns();
-  // if (mode === 'addImg') enableAddImgBtns();
-  // if (mode === 'update') enableUpdateBtns();
   enableBtns();
 }
 
@@ -218,10 +223,10 @@ function enableBtns() {
   btnCancel.disabled = mode !== 'update';
   btnAddImg.disabled = mode !== 'addImg';
 
-  inputValue.classList.remove(mode === 'addImg' ? 'd-block' : 'd-none');
-  inputValue.classList.add(mode === 'addImg' ? 'd-none' : 'd-block');
-  inputImg.classList.remove(mode === 'addImg' ? 'd-none' : 'd-block');
-  inputImg.classList.add(mode === 'addImg' ? 'd-block' : 'd-none');
+  // inputValue.classList.remove(mode === 'addImg' ? 'd-block' : 'd-none');
+  // inputValue.classList.add(mode === 'addImg' ? 'd-none' : 'd-block');
+  // inputImg.classList.remove(mode === 'addImg' ? 'd-none' : 'd-block');
+  // inputImg.classList.add(mode === 'addImg' ? 'd-block' : 'd-none');
 }
 
 /**
