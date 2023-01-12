@@ -92,7 +92,7 @@ function listToHtml() {
 }
 
 /**
- * Enable or disavle buttons based on the actual mode
+ * Enable or disable buttons based on the actual mode
  */
 function enableBtns() {
 
@@ -205,8 +205,7 @@ function populate(n) {
 /* --------------------------------------- */
 
 /**
- * Get the value of the input and added 
- * save it to workingOn 
+ * Get the value of inputValue and adds it to the list
  * If input is empty do nothing
  */
 function addItem() {
@@ -216,16 +215,12 @@ function addItem() {
   const itemValue = inputValue.value.trim();
   const itemImg = inputImg.value.trim();
   inputValue.focus();
-  if (mode == 'add') {
-    listItems.push({
-      id: nextId++,
-      value: itemValue,
-      imgUrl: itemImg,
-    });
-  } else if (mode == 'update') {
 
-  }
-
+  listItems.push({
+    id: nextId++,
+    value: itemValue,
+    imgUrl: itemImg,
+  });
   inputValue.value = '';
   inputImg.value = '';
   inputValue.focus();
@@ -256,7 +251,7 @@ function deleteItem(id) {
 }
 
 /**
- * Puts the data of the given index into the input and changes the nearby btn into an edit btn with an event to save changes
+ * Puts the data of the given index into the form and changes the mode to update
  *
  * @param {number} indexToUpdate
  */
@@ -301,7 +296,7 @@ function changeModeTo(newMode) {
 }
 
 /**
- * Stores the changes made in input into the item already in storage
+ * Stores the changes made in the form into the item already in storage
  *
  */
 function confirmUpdateItem() {
