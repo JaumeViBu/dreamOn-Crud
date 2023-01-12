@@ -4,7 +4,7 @@ let nextId = 0;//autoIncrement Id
 let mode = 'add';
 let workingOn = null;
 let defaultImg = './img/test.png'
-const DEBUGMODE = true;
+const DEBUGMODE = false;
 
 //dom elements globals
 const inputValue = document.getElementById('inItem');
@@ -14,10 +14,13 @@ const btnAdd = document.getElementById('btnAdd');
 const btnAddImg = document.getElementById('btnAddUrl');
 const btnSave = document.getElementById('btnSave');
 const btnCancel = document.getElementById('btnCancel');
+const formItems = document.getElementById('formItems');
+const imgShowFormItems = document.getElementById('imgShowFormItems');
 
 //eventListeners
 //enter press on inputValue
 inputValue.addEventListener('keypress', (e) => {
+  console.log(e.key);
   if (e.key == 'Enter' && mode == 'add') {
     addItem();
   }
@@ -53,7 +56,7 @@ window.addEventListener('beforeunload', () => {
 
 
 /* --------------------------------------- */
-/*          Functions - Render             */
+/*          Functions - View related?      */
 /* --------------------------------------- */
 
 /**
@@ -74,11 +77,72 @@ function listToHtml() {
 
   for (const item of listItems) {
 
-    template += /*html*/`<li><img id="img-${item.id}"class="itemImg" src="${item.imgUrl == '' ? defaultImg : item.imgUrl}"/>${DEBUGMODE ? `id: ${item.id} - ` : ''}${item.value}<button class='btn btnDelete' onclick="deleteItem(${item.id})">Borrar</button > <button class='btn btnEdit' onclick="updateItem(${item.id})">Editar</button></li > `;
+    template += /*html*/`
+    <li class="itemCard">
+      <img id="img-${item.id}" src="${item.imgUrl == '' ? defaultImg : item.imgUrl}"/>
+      <div class="itemCard__desc">
+        <p>${DEBUGMODE ? `id: ${item.id} - ` : ''}${item.value}</p>
+        <button class='itemCard__btn btnDelete' onclick="deleteItem(${item.id})"></button> 
+        <button class='itemCard__btn btnEdit' onclick="updateItem(${item.id})"></button>
+      </div>
+    </li >
+    `;
   }
 
   return template;
 }
+
+/**
+ * Enable or disavle buttons based on the actual mode
+ */
+function enableBtns() {
+
+  for (const btn of document.querySelectorAll('button')) {
+    btn.disabled = mode === 'add' ? false : true;
+  }
+  btnAdd.classList.remove(mode === 'update' ? 'd-block' : 'd-none');
+  btnAdd.classList.add(mode === 'update' ? 'd-none' : 'd-block');
+  btnCancel.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
+  btnCancel.classList.add(mode === 'update' ? 'd-block' : 'd-none');
+  btnSave.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
+  btnSave.classList.add(mode === 'update' ? 'd-block' : 'd-none');
+
+  btnSave.disabled = mode !== 'update';
+  btnCancel.disabled = mode !== 'update';
+}
+
+/**
+ * Change the mode back to add from update, and resets input and workingOn values
+ *
+ */
+function cancelUpdateItem() {
+
+  changeModeTo('add');
+  inputValue.value = '';
+  inputImg.value = '';
+  workingOn = null;
+  toggleAddItemForm();
+}
+
+/**
+ * Toggles the hidden atr of the add item form
+ *
+ */
+function toggleAddItemForm() {
+  if (formItems.classList.contains('d-none')) {
+    formItems.classList.add('d-flex');
+    formItems.classList.remove('d-none');
+    imgShowFormItems.classList.add('d-none');
+    imgShowFormItems.classList.remove('d-block');
+  } else {
+    formItems.classList.add('d-none');
+    formItems.classList.remove('d-flex');
+    imgShowFormItems.classList.add('d-block');
+    imgShowFormItems.classList.remove('d-none');
+  }
+}
+
+
 
 /* --------------------------------------- */
 /*          Functions - Storage            */
@@ -137,6 +201,7 @@ function addItem() {
   inputValue.focus();
   render();
   changeModeTo('add');
+  toggleAddItemForm();
 }
 
 /**
@@ -167,6 +232,7 @@ function deleteItem(id) {
  */
 function updateItem(id) {
 
+  if (formItems.classList.contains('d-none')) toggleAddItemForm();
   if (typeof id != 'number') throw new Error('id must be a number');
   if (mode === 'add') changeModeTo('update');
   else return;
@@ -202,37 +268,6 @@ function changeModeTo(newMode) {
   if (mode === newMode) return;//nothing to do
   mode = newMode;
   enableBtns();
-}
-
-/**
- * Enable or disavle buttons based on the actual mode
- */
-function enableBtns() {
-
-  for (const btn of document.querySelectorAll('button')) {
-    btn.disabled = mode === 'add' ? false : true;
-  }
-  btnAdd.classList.remove(mode === 'update' ? 'd-block' : 'd-none');
-  btnAdd.classList.add(mode === 'update' ? 'd-none' : 'd-block');
-  btnCancel.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
-  btnCancel.classList.add(mode === 'update' ? 'd-block' : 'd-none');
-  btnSave.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
-  btnSave.classList.add(mode === 'update' ? 'd-block' : 'd-none');
-
-  btnSave.disabled = mode !== 'update';
-  btnCancel.disabled = mode !== 'update';
-}
-
-/**
- * Change the mode back to add from update, and resets input and workingOn values
- *
- */
-function cancelUpdateItem() {
-
-  changeModeTo('add');
-  inputValue.value = '';
-  inputImg.value = '';
-  workingOn = null;
 }
 
 /**

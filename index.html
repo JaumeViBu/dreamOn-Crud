@@ -11,17 +11,27 @@
 </head>
 
 <body>
-  <form action="javascript:void(0);">
+  <img src="./img/add.png" alt="open add item form button" onclick="toggleAddItemForm()" id="imgShowFormItems"
+    class="d-block" />
+  <form action="javascript:void(0);" id="formItems" class="d-none">
     <input id="inItem" type="text" placeholder="Entra un item para añadir">
     <input id="inImageUrl" class="" type="url" placeholder="Entra una url a una imagen">
     <div class="btnContainer">
-      <button id="btnAdd" onclick="addItem()" class="btn d-block">Añadir</button>
-      <button id="btnSave" onclick="confirmUpdateItem()" class="btn btnEdit d-none">Update</button>
+      <button type="submit" id="btnAdd" onclick="addItem()" class="btn d-block">Añadir</button>
+      <button type="submit" id="btnSave" onclick="confirmUpdateItem()" class="btn btnEdit d-none">Guardar
+        cambios</button>
       <button id="btnCancel" onclick="cancelUpdateItem()" class="btn btnDelete d-none">Cancel</button>
     </div>
   </form>
   <ul id="listdom">
-
+    <li class="itemCard">
+      <img src="https://images.pexels.com/photos/6389525/pexels-photo-6389525.jpeg" alt="" />
+      <div class="itemCard__desc">
+        <p>Rock!</p>
+        <button class="itemCard__btn btnDelete"></button>
+        <button class="itemCard__btn btnEdit"></button>
+      </div>
+    </li>
   </ul>
 </body>
 
