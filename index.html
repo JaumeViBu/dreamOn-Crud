@@ -20,7 +20,8 @@
       <button type="submit" id="btnAdd" onclick="addItem()" class="btn d-block">Añadir</button>
       <button type="submit" id="btnSave" onclick="confirmUpdateItem()" class="btn btnEdit d-none">Guardar
         cambios</button>
-      <button id="btnCancel" onclick="cancelUpdateItem()" class="btn btnDelete d-none">Cancel</button>
+      <button id="btnCancelUpdate" onclick="cancelUpdateItem()" class="btn btnCancel d-none">Cancel</button>
+      <button id="btnCancelAdd" onclick="cancelAddItem()" class="btn btnCancel d-block">Cancel</button>
     </div>
   </form>
   <ul id="listdom">
@@ -28,8 +29,8 @@
       <img src="https://images.pexels.com/photos/6389525/pexels-photo-6389525.jpeg" alt="" />
       <div class="itemCard__desc">
         <p>Rock!</p>
-        <button class="itemCard__btn btnDelete"></button>
-        <button class="itemCard__btn btnEdit"></button>
+        <button class="itemCard__btn itemCard__btnDelete"></button>
+        <button class="itemCard__btn itemCard__btnEdit"></button>
       </div>
     </li>
   </ul>

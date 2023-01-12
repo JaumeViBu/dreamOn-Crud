@@ -30,6 +30,14 @@ body {
   cursor: pointer;
 }
 
+.btnEdit {
+  background-color: rgb(225, 194, 56);
+}
+
+.btnCancel {
+  background-color: rgb(204, 71, 71);
+}
+
 .btnContainer {
   display: flex;
   flex-direction: row;
@@ -41,31 +49,13 @@ body {
   border-top: 1px solid #000;
 }
 
-.itemCard__btn {
-  background-color: transparent;
-  background-size: cover;
-  border: none;
-  width: 48px;
-  height: 48px;
-  cursor: pointer;
-}
-.btnDelete {
-  background-image: url(./img/bin.png);
-}
-
-.btnEdit {
-  background-image: url(./img/edit.png);
-}
-.btnEdit:active {
-  border: none;
-}
-
 .btn:disabled {
   border: none;
   cursor: not-allowed;
   background-color: #666;
   color: #d5d5d5;
 }
+
 input {
   border: none;
   padding: 1rem 0.5rem;
@@ -121,12 +111,31 @@ li {
   display: grid;
 
   grid-template-columns: 65% 15% 15%;
+  align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
 }
 
 .itemCard__desc p {
   padding: 0.5rem 1rem;
+}
+
+.itemCard__btn {
+  background-color: transparent;
+  background-size: cover;
+  border: none;
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+.itemCard__btnDelete {
+  background-image: url(./img/bin.png);
+  justify-self: flex-end;
+}
+
+.itemCard__btnEdit {
+  background-image: url(./img/edit.png);
 }
 
 .d-none {
@@ -136,6 +145,18 @@ li {
 .d-block {
   display: block;
 }
+
 .d-flex {
   display: flex;
+}
+
+@media (width>450px) {
+  #listdom {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .itemCard {
+    max-width: 200px;
+  }
 }

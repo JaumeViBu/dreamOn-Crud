@@ -13,14 +13,14 @@ const listdom = document.getElementById('listdom');
 const btnAdd = document.getElementById('btnAdd');
 const btnAddImg = document.getElementById('btnAddUrl');
 const btnSave = document.getElementById('btnSave');
-const btnCancel = document.getElementById('btnCancel');
+const btnCancelUpdate = document.getElementById('btnCancelUpdate');
+const btnCancelAdd = document.getElementById('btnCancelAdd');
 const formItems = document.getElementById('formItems');
 const imgShowFormItems = document.getElementById('imgShowFormItems');
 
 //eventListeners
 //enter press on inputValue
 inputValue.addEventListener('keypress', (e) => {
-  console.log(e.key);
   if (e.key == 'Enter' && mode == 'add') {
     addItem();
   }
@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //page on beforeunload -> save to localStorage
 window.addEventListener('beforeunload', () => {
-  console.log('before')
   storeItems();
 });
 
@@ -82,8 +81,8 @@ function listToHtml() {
       <img id="img-${item.id}" src="${item.imgUrl == '' ? defaultImg : item.imgUrl}"/>
       <div class="itemCard__desc">
         <p>${DEBUGMODE ? `id: ${item.id} - ` : ''}${item.value}</p>
-        <button class='itemCard__btn btnDelete' onclick="deleteItem(${item.id})"></button> 
-        <button class='itemCard__btn btnEdit' onclick="updateItem(${item.id})"></button>
+        <button class='itemCard__btn itemCard__btnDelete' onclick="deleteItem(${item.id})"></button> 
+        <button class='itemCard__btn itemCard__btnEdit' onclick="updateItem(${item.id})"></button>
       </div>
     </li >
     `;
@@ -102,13 +101,15 @@ function enableBtns() {
   }
   btnAdd.classList.remove(mode === 'update' ? 'd-block' : 'd-none');
   btnAdd.classList.add(mode === 'update' ? 'd-none' : 'd-block');
-  btnCancel.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
-  btnCancel.classList.add(mode === 'update' ? 'd-block' : 'd-none');
+  btnCancelAdd.classList.remove(mode === 'update' ? 'd-block' : 'd-none');
+  btnCancelAdd.classList.add(mode === 'update' ? 'd-none' : 'd-block');
+  btnCancelUpdate.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
+  btnCancelUpdate.classList.add(mode === 'update' ? 'd-block' : 'd-none');
   btnSave.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
   btnSave.classList.add(mode === 'update' ? 'd-block' : 'd-none');
 
   btnSave.disabled = mode !== 'update';
-  btnCancel.disabled = mode !== 'update';
+  btnCancelUpdate.disabled = mode !== 'update';
 }
 
 /**
@@ -125,6 +126,17 @@ function cancelUpdateItem() {
 }
 
 /**
+ * Hides the form after reseting it
+ *
+ */
+function cancelAddItem() {
+
+  inputValue.value = '';
+  inputImg.value = '';
+  toggleAddItemForm();
+}
+
+/**
  * Toggles the hidden atr of the add item form
  *
  */
@@ -134,6 +146,7 @@ function toggleAddItemForm() {
     formItems.classList.remove('d-none');
     imgShowFormItems.classList.add('d-none');
     imgShowFormItems.classList.remove('d-block');
+    inputValue.focus();
   } else {
     formItems.classList.add('d-none');
     formItems.classList.remove('d-flex');
@@ -168,6 +181,23 @@ function storeItems() {
     items: listItems
   }
   localStorage.setItem('crud-items-data', JSON.stringify(data));
+}
+
+/**
+ * Coes a shallow copy of the last item in the list and adds it n times
+ *
+ * @param {number} n
+ * @returns
+ */
+function populate(n) {
+  if (listItems.length <= 0) return;
+  const lastItem = listItems[listItems.length - 1];
+  for (let i = 0; i < n; i++) {
+    const copy = { ...lastItem };
+    copy.id = nextId++;
+    listItems.push(copy);
+  }
+  render();
 }
 
 /* --------------------------------------- */
