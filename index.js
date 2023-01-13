@@ -90,7 +90,7 @@ function listToHtml() {
     <li class="itemCard">
       <img id="img-${item.id}" src="${item.imgUrl == '' ? defaultImg : item.imgUrl}"/>
       <div class="itemCard__desc">
-        <p>${DEBUGMODE ? `id: ${item.id} - ` : ''}${item.value}</p>
+        <p>${DEBUGMODE ? `id: ${item.id} - ` : ''}${item.value.length > 21 ? item.value.substring(0, 22) + '...' : item.value}</p>
         <button class='itemCard__btn itemCard__btnDelete' onclick="deleteItem(${item.id})"></button> 
         <button class='itemCard__btn itemCard__btnEdit' onclick="updateItem(${item.id})"></button>
       </div>

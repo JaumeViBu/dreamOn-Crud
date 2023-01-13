@@ -92,13 +92,12 @@ li {
 }
 
 .itemCard {
-  width: 100%;
+  width: 320px;
   display: flex;
   flex-direction: column;
   border: 2px solid black;
   border-radius: 20px;
   gap: 0;
-  min-width: 2;
 }
 
 .itemCard img {
@@ -110,12 +109,12 @@ li {
 
 .itemCard__desc {
   width: 100%;
-  min-height: 6rem;
+  min-height: 2rem;
   display: grid;
-  grid-template-columns: 65% 15% 15%;
+  grid-template-columns: 70% 15% 15%;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0;
 }
 
 .itemCard__desc p {
@@ -126,9 +125,10 @@ li {
   background-color: transparent;
   background-size: cover;
   border: none;
-  width: 1rem;
-  height: 1rem;
+  width: 0.7rem;
+  height: 0.7rem;
   cursor: pointer;
+  align-self: center;
 }
 
 .itemCard__btnDelete {
@@ -172,8 +172,5 @@ li {
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
-  }
-  .itemCard {
-    max-width: 200px;
   }
 }
