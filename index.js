@@ -237,7 +237,7 @@ function addItem() {
   const itemValue = inputValue.value.trim();
   const itemImg = inputImg.value.trim();
   inputValue.focus();
-
+  if (!/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]\*)/g.test(inputImg)) return;
   listItems.push({
     id: nextId++,
     value: itemValue,

@@ -38,3 +38,5 @@ Iteracion 3
 After preview
 
 - [ ] item-card\_\_desc height no se deforme en funcion de lineas de texto
+- [ ] cambiar display usando toggle 'd-none'
+- [x] validar que url sea una url
