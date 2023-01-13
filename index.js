@@ -1,5 +1,6 @@
 //globals
 let listItems;
+let filteredList;
 let nextId = 0;//autoIncrement Id
 let mode = 'add';
 let workingOn = null;
@@ -17,9 +18,10 @@ const btnCancelUpdate = document.getElementById('btnCancelUpdate');
 const btnCancelAdd = document.getElementById('btnCancelAdd');
 const formItems = document.getElementById('formItems');
 const imgShowFormItems = document.getElementById('imgShowFormItems');
+const inputFilter = document.getElementById('inFilter');
 
 //eventListeners
-//enter press on inputValue
+//enter press on inputValue -> "submit" form
 inputValue.addEventListener('keypress', (e) => {
   if (e.key == 'Enter' && mode == 'add') {
     addItem();
@@ -29,7 +31,7 @@ inputValue.addEventListener('keypress', (e) => {
   }
 });
 
-//enter press on inputImg
+//enter press on inputImg -> "submit" form
 inputImg.addEventListener('keypress', (e) => {
   if (e.key == 'Enter' && mode == 'add') {
     addItem();
@@ -39,10 +41,34 @@ inputImg.addEventListener('keypress', (e) => {
   }
 });
 
+//key pressed on inFilter -> filter item list
+inputFilter.addEventListener('keypress', (e) => {
+
+  filteredList = listItems.filter((item) => {
+
+    return item.value.toLowerCase().includes(inputFilter.value.toLowerCase().trim() + e.key);
+  });
+  render();
+});
+
+//keydown to detect backspace and other non text keys
+inputFilter.addEventListener('keydown', (e) => {
+  if (e.key == 'Backspace') {
+
+    filteredList = listItems.filter((item) => {
+
+      return item.value.toLowerCase().includes(inputFilter.value.toLowerCase().substring(0, inputFilter.value.length - 1));
+    });
+    render();
+  }
+});
+
+
 //page on DOMContentLoaded -> load from localStorage
 document.addEventListener('DOMContentLoaded', () => {
   ({ nextId, items } = retrieveItems());
   listItems = items ? items : [];
+  filteredList = listItems;
   nextId = listItems.length == 0 ? 0 : nextId;
   render();
 });
@@ -74,7 +100,7 @@ function listToHtml() {
 
   let template = '';
 
-  for (const item of listItems) {
+  for (const item of filteredList) {
 
     template += /*html*/`
     <li class="itemCard">
