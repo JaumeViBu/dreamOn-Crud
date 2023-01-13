@@ -32,3 +32,9 @@ Iteracion 3
 - [x] añadir input filtro
 - [x] refactorizar: el form de añadir este oculto hasta pulsar boton/icono
 - [x] corregir nextId con persistencia...
+
+---
+
+After preview
+
+- [ ] item-card\_\_desc height no se deforme en funcion de lineas de texto

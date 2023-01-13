@@ -98,6 +98,7 @@ li {
   border: 2px solid black;
   border-radius: 20px;
   gap: 0;
+  min-width: 2;
 }
 
 .itemCard img {
@@ -109,8 +110,8 @@ li {
 
 .itemCard__desc {
   width: 100%;
+  min-height: 6rem;
   display: grid;
-
   grid-template-columns: 65% 15% 15%;
   align-items: center;
   gap: 0.5rem;
