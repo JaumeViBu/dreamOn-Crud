@@ -2,7 +2,11 @@
 
 ## [Demo](https://jaumevibu.github.io/dreamOn-Crud/)
 
-TODO
+Iteracion 1
+
+- [x] input para añadir nombre a un item
+
+- [x] que se añada a un array
 
 - [x] añadir boton a cada item de la lista renderizada para borrar el item
 
