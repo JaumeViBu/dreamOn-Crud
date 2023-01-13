@@ -41,26 +41,9 @@ inputImg.addEventListener('keypress', (e) => {
   }
 });
 
-//key pressed on inFilter -> filter item list
-inputFilter.addEventListener('keypress', (e) => {
-
-  filteredList = listItems.filter((item) => {
-
-    return item.value.toLowerCase().includes(inputFilter.value.toLowerCase().trim() + e.key);
-  });
+inputFilter.addEventListener('input', (e) => {
+  //filterList(e.target.value.toLowerCase());
   render();
-});
-
-//keydown to detect backspace and other non text keys
-inputFilter.addEventListener('keydown', (e) => {
-  if (e.key == 'Backspace') {
-
-    filteredList = listItems.filter((item) => {
-
-      return item.value.toLowerCase().includes(inputFilter.value.toLowerCase().substring(0, inputFilter.value.length - 1));
-    });
-    render();
-  }
 });
 
 
@@ -89,6 +72,7 @@ window.addEventListener('beforeunload', () => {
  */
 function render() {
 
+  filterList(inputFilter.value);
   listdom.innerHTML = listToHtml();
 }
 
@@ -149,6 +133,18 @@ function cancelUpdateItem() {
   inputImg.value = '';
   workingOn = null;
   toggleAddItemForm();
+}
+
+function filterList(filterStr) {
+
+  const trimedValue = filterStr.trim();
+  if (trimedValue == '') filteredList = listItems;
+  else
+    filteredList = listItems.filter((item) => {
+
+      return item.value.toLowerCase().includes(trimedValue);
+    });
+  inputFilter.value = trimedValue;
 }
 
 /**

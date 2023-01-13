@@ -25,6 +25,6 @@ Iteracion 3
 
 ![sketch de la aplicación](./img/readme-sketch01.png)
 
-- [ ] añadir input filtro
+- [x] añadir input filtro
 - [x] refactorizar: el form de añadir este oculto hasta pulsar boton/icono
 - [x] corregir nextId con persistencia...
