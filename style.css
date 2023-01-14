@@ -111,7 +111,7 @@ li {
   width: 100%;
   min-height: 2rem;
   display: grid;
-  grid-template-columns: 70% 15% 15%;
+  grid-template-columns: 7fr 1fr 1fr;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0;
@@ -131,6 +131,10 @@ li {
   align-self: center;
 }
 
+.itemCard__btn:disabled {
+  cursor: no-drop;
+}
+
 .itemCard__btnDelete {
   background-image: url(./img/bin.png);
   justify-self: flex-end;
@@ -140,16 +144,15 @@ li {
   background-image: url(./img/edit.png);
 }
 
-.d-none {
-  display: none;
-}
-
 .d-block {
   display: block;
 }
 
 .d-flex {
   display: flex;
+}
+.d-none {
+  display: none;
 }
 
 .filterContainer {

@@ -12,21 +12,23 @@
 
 <body>
 
-  <form action="javascript:void(0);" id="formItems" class="d-none">
+  <form action="javascript:void(0);" id="formItems" class="d-flex d-none">
     <input id="inItem" type="text" placeholder="Nombre del item a añadir..." />
     <input id="inImageUrl" class="" type="url" placeholder="Url de la imagen a añadir..." />
-    <div class="btnContainer">
-      <button type="submit" id="btnAdd" onclick="addItem()" class="btn d-block">Añadir</button>
-      <button type="submit" id="btnSave" onclick="confirmUpdateItem()" class="btn btnEdit d-none">Guardar
+    <div id="btns-add" class="btnContainer">
+      <button type="submit" id="btnAdd" onclick="addItem()" class="btn ">Añadir</button>
+      <button id="btnCancelAdd" onclick="cancelAddItem()" class="btn btnCancel ">Cancelar</button>
+    </div>
+    <div id="btns-update" class="btnContainer d-none">
+      <button type="submit" id="btnSave" onclick="confirmUpdateItem()" class="btn btnEdit">Guardar
         cambios</button>
-      <button id="btnCancelUpdate" onclick="cancelUpdateItem()" class="btn btnCancel d-none">Cancelar</button>
-      <button id="btnCancelAdd" onclick="cancelAddItem()" class="btn btnCancel d-block">Cancelar</button>
+      <button id="btnCancelUpdate" onclick="cancelUpdateItem()" class="btn btnCancel">Cancelar</button>
     </div>
   </form>
   <div class="filterContainer">
     <input id="inFilter" type="text" placeholder="Buscar..." />
     <img src="./img/add.png" alt="open add item form button" onclick="toggleAddItemForm()" id="imgShowFormItems"
-      class="d-block" />
+      class="" />
   </div>
   <ul id="listdom">
 

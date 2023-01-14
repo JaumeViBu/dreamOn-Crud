@@ -2,7 +2,7 @@
 let listItems;
 let filteredList;
 let nextId = 0;//autoIncrement Id
-let mode = 'add';
+let mode = 'add';// add | update
 let workingOn = null;
 let defaultImg = './img/test.png'
 const DEBUGMODE = false;
@@ -11,14 +11,11 @@ const DEBUGMODE = false;
 const inputValue = document.getElementById('inItem');
 const inputImg = document.getElementById('inImageUrl');
 const listdom = document.getElementById('listdom');
-const btnAdd = document.getElementById('btnAdd');
-const btnAddImg = document.getElementById('btnAddUrl');
-const btnSave = document.getElementById('btnSave');
-const btnCancelUpdate = document.getElementById('btnCancelUpdate');
-const btnCancelAdd = document.getElementById('btnCancelAdd');
 const formItems = document.getElementById('formItems');
 const imgShowFormItems = document.getElementById('imgShowFormItems');
 const inputFilter = document.getElementById('inFilter');
+const btns_add = document.getElementById('btns-add');
+const btns_update = document.getElementById('btns-update');
 
 //eventListeners
 //enter press on inputValue -> "submit" form
@@ -42,7 +39,6 @@ inputImg.addEventListener('keypress', (e) => {
 });
 
 inputFilter.addEventListener('input', (e) => {
-  //filterList(e.target.value.toLowerCase());
   render();
 });
 
@@ -106,20 +102,20 @@ function listToHtml() {
  */
 function enableBtns() {
 
-  for (const btn of document.querySelectorAll('button')) {
-    btn.disabled = mode === 'add' ? false : true;
+  for (const btn of document.querySelectorAll('.itemCard__btn')) {
+    // btn.disabled = mode === 'add' ? false : true;
+    btn.disabled = !formItems.classList.contains('d-none');
   }
-  btnAdd.classList.remove(mode === 'update' ? 'd-block' : 'd-none');
-  btnAdd.classList.add(mode === 'update' ? 'd-none' : 'd-block');
-  btnCancelAdd.classList.remove(mode === 'update' ? 'd-block' : 'd-none');
-  btnCancelAdd.classList.add(mode === 'update' ? 'd-none' : 'd-block');
-  btnCancelUpdate.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
-  btnCancelUpdate.classList.add(mode === 'update' ? 'd-block' : 'd-none');
-  btnSave.classList.remove(mode === 'update' ? 'd-none' : 'd-block');
-  btnSave.classList.add(mode === 'update' ? 'd-block' : 'd-none');
-
-  btnSave.disabled = mode !== 'update';
-  btnCancelUpdate.disabled = mode !== 'update';
+  if (mode == 'add' && btns_add.classList.contains('d-none')) {
+    btns_add.classList.toggle('d-none');
+    if (!btns_update.classList.contains('d-none')) btns_update.classList.toggle('d-none');
+  }
+  if (mode == 'update' && btns_update.classList.contains('d-none')) {
+    btns_update.classList.toggle('d-none');
+    if (!btns_add.classList.contains('d-none')) {
+      btns_add.classList.toggle('d-none');
+    }
+  }
 }
 
 /**
@@ -128,11 +124,11 @@ function enableBtns() {
  */
 function cancelUpdateItem() {
 
+  toggleAddItemForm();
   changeModeTo('add');
   inputValue.value = '';
   inputImg.value = '';
   workingOn = null;
-  toggleAddItemForm();
 }
 
 function filterList(filterStr) {
@@ -163,18 +159,12 @@ function cancelAddItem() {
  *
  */
 function toggleAddItemForm() {
-  if (formItems.classList.contains('d-none')) {
-    formItems.classList.add('d-flex');
-    formItems.classList.remove('d-none');
-    imgShowFormItems.classList.add('d-none');
-    imgShowFormItems.classList.remove('d-block');
-    inputValue.focus();
-  } else {
-    formItems.classList.add('d-none');
-    formItems.classList.remove('d-flex');
-    imgShowFormItems.classList.add('d-block');
-    imgShowFormItems.classList.remove('d-none');
-  }
+  formItems.classList.toggle('d-none');
+  imgShowFormItems.classList.toggle('d-none');
+  if (mode == 'add') enableBtns();
+  else changeModeTo('add');
+  inputValue.focus();
+
 }
 
 
@@ -237,7 +227,13 @@ function addItem() {
   const itemValue = inputValue.value.trim();
   const itemImg = inputImg.value.trim();
   inputValue.focus();
-  if (!/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]\*)/g.test(inputImg)) return;
+  try {
+
+    const fccUrl = new URL(itemImg);
+  } catch (error) {
+    return;
+  }
+
   listItems.push({
     id: nextId++,
     value: itemValue,
@@ -286,7 +282,6 @@ function updateItem(id) {
   let item = getItemById(id);
   inputValue.value = item.value;
   inputImg.value = item.imgUrl;
-  changeModeTo('update');
   workingOn = id;
   inputValue.focus();
 }

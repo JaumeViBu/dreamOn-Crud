@@ -38,6 +38,7 @@ Iteracion 3
 After preview
 
 - [x] item-card\_\_desc height no se deforme en funcion de lineas de texto -> mostrar solo primeros 21 caracteres + ..., pero guardar completo por si las
-- [ ] cambiar display usando toggle 'd-none'
-- [ ] validar que url sea una url
+- [x] cambiar display usando toggle 'd-none'
+- [x] validar que url sea una url
 - [ ] refactorizar css, componentes, vars, global...
+- [x] refactorizar cambios de display con classlist toggle
