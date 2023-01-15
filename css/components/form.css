@@ -1,0 +1,53 @@
+#formItems {
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  width: 90%;
+}
+
+.btn {
+  border: none;
+  padding: 0.5rem 0.25rem;
+  background-color: #cce;
+  border-radius: 10px;
+  border-bottom: 1px solid #000;
+  width: 5rem;
+  cursor: pointer;
+}
+
+.btnEdit {
+  background-color: rgb(225, 194, 56);
+}
+
+.btnCancel {
+  background-color: rgb(204, 71, 71);
+}
+
+.btnContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.btn:active {
+  border: none;
+  border-top: 1px solid #000;
+}
+
+.btn:disabled {
+  border: none;
+  cursor: not-allowed;
+  background-color: #666;
+  color: #d5d5d5;
+}
+
+input {
+  border: none;
+  padding: 1rem 0.5rem;
+  outline: none;
+  background-color: #eee;
+  border-radius: 5px;
+  width: 60%;
+  border-top: 1px solid #aaa;
+}

@@ -40,5 +40,6 @@ After preview
 - [x] item-card\_\_desc height no se deforme en funcion de lineas de texto -> mostrar solo primeros 21 caracteres + ..., pero guardar completo por si las
 - [x] cambiar display usando toggle 'd-none'
 - [x] validar que url sea una url
-- [ ] refactorizar css, componentes, vars, global...
+- [x] tanto titulo/nombre como url son required, validar que no esten en blanco
+- [x] refactorizar css, componentes, vars, global...
 - [x] refactorizar cambios de display con classlist toggle
