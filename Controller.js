@@ -1,12 +1,4 @@
-// const controller = {
-//   list: [],
-//   initialize(data) {
-//     this.list = data;
-//     return this;
-//   },
-// };
-
-class Controller {
+export class Controller {
 
   #itemList = [];
   #itemListView;
@@ -27,7 +19,3 @@ class Controller {
 }
 
 
-
-module.exports = {
-  Controller,
-}

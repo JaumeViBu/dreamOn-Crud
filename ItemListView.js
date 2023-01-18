@@ -1,5 +1,4 @@
-
-class ItemListView {
+export class ItemListView {
 
   inputValue = document.getElementById('inItem');
   inputImg = document.getElementById('inImageUrl');
@@ -11,7 +10,7 @@ class ItemListView {
   btns_update = document.getElementById('btns-update');
 
   constructor() {
-    this.addEventListeners();
+    //this.addEventListeners();
   }
 
   /**
@@ -128,7 +127,3 @@ class ItemListView {
 
 }
 
-
-module.exports = {
-  ItemListView,
-}

@@ -1,3 +1,7 @@
+import { Model } from './Model';
+import { ItemListView } from './ItemListView';
+import { Controller } from './Controller';
+
 //globals
 let listItems;
 let filteredList;

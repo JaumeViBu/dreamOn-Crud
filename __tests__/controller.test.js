@@ -1,6 +1,6 @@
-const { Controller } = require('../Controller');
-const { Model } = require('../Model');
-const { ItemListView } = require('../ItemListView');
+import { Controller } from '../Controller';
+import { Model } from '../Model';
+import { ItemListView } from '../ItemListView';
 
 
 

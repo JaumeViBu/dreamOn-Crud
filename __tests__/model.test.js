@@ -1,4 +1,4 @@
-const { Model } = require('../Model');
+import { Model } from '../Model';
 
 describe('CRUD model', () => {
   it('model has a private data property, and we can acces it with getItemList method', () => {

@@ -1,4 +1,4 @@
-class Model {
+export class Model {
   #data = [];
   constructor(data = []) {
     this.setItemList(data);
@@ -14,6 +14,3 @@ class Model {
 }
 
 
-module.exports = {
-  Model,
-}

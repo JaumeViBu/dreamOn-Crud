@@ -1,4 +1,4 @@
-const { ItemListView } = require('../ItemListView');
+import { ItemListView } from '../ItemListView';
 
 describe('CRUD ItemListView', () => {
   it('Contains a private property for every dom element of the web page', () => {
