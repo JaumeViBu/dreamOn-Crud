@@ -43,3 +43,12 @@ After preview
 - [x] tanto titulo/nombre como url son required, validar que no esten en blanco
 - [x] refactorizar css, componentes, vars, global...
 - [x] refactorizar cambios de display con classlist toggle
+
+---
+
+Semana 06, nuevos objetivos:
+
+- [ ] crear objeto UI - view?
+- [ ] crear objeto CRUD
+  - [ ] control + model ?
+- [ ] realizar los cambios aplicando TDD

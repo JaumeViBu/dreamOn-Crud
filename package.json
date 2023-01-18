@@ -1,0 +1,24 @@
+{
+  "name": "dreamOn-Crud",
+  "version": "1.0.0",
+  "description": "Iteracion 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JaumeViBu/dreamOn-Crud.git"
+  },
+  "keywords": [],
+  "author": "Jaume Vidal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JaumeViBu/dreamOn-Crud/issues"
+  },
+  "homepage": "https://github.com/JaumeViBu/dreamOn-Crud#readme",
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1"
+  }
+}
