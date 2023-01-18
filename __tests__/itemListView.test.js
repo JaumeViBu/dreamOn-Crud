@@ -15,4 +15,33 @@ describe('CRUD ItemListView', () => {
     expect(sut).toHaveProperty('btns_add');
     expect(sut).toHaveProperty('btns_update');
   });
+
+  it('Contains a method render()', () => {
+    //GIVEN
+    //WHEN
+    const sut = typeof new ItemListView().render;
+    //THEN
+    expect(sut).toBe('function');
+  });
+  it('Contains a method filterList()', () => {
+    //GIVEN
+    //WHEN
+    const sut = typeof new ItemListView().filterList;
+    //THEN
+    expect(sut).toBe('function');
+  });
+  it('Contains a method listToHTML()', () => {
+    //GIVEN
+    //WHEN
+    const sut = typeof new ItemListView().listToHtml;
+    //THEN
+    expect(sut).toBe('function');
+  });
+  it('Contains a method enableBtns()', () => {
+    //GIVEN
+    //WHEN
+    const sut = typeof new ItemListView().enableBtns;
+    //THEN
+    expect(sut).toBe('function');
+  });
 });

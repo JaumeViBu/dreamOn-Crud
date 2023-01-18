@@ -48,7 +48,9 @@ After preview
 
 Semana 06, nuevos objetivos:
 
-- [ ] crear objeto UI - view?
-- [ ] crear objeto CRUD
-  - [ ] control + model ?
+- [ ] crear objetos CRUD siguiendo patron MVC
+  - [ ] model
+  - [ ] itemListView
+  - [ ] controller
 - [ ] realizar los cambios aplicando TDD
+  - [x] Using Jest with jsdom env
