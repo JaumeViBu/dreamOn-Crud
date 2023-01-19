@@ -44,4 +44,19 @@ describe('CRUD ItemListView', () => {
     //THEN
     expect(sut).toBe('function');
   });
+  it('Contains a method cancelUpdateItem()', () => {
+    //GIVEN
+    //WHEN
+    const sut = typeof new ItemListView().cancelUpdateItem;
+    //THEN
+    expect(sut).toBe('function');
+  });
+  it('Contains a method toggleAddItemForm()', () => {
+    //GIVEN
+    //WHEN
+    const sut = typeof new ItemListView().toggleAddItemForm;
+    //THEN
+    expect(sut).toBe('function');
+  });
+
 });

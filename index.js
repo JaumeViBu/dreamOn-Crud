@@ -1,6 +1,6 @@
-import { Model } from './Model';
-import { ItemListView } from './ItemListView';
-import { Controller } from './Controller';
+// import { Model } from './Model.js';
+// import { ItemListView } from './ItemListView.js';
+// import { Controller } from './Controller.js';
 
 //globals
 let listItems;
@@ -12,14 +12,14 @@ let defaultImg = './img/test.png'
 const DEBUGMODE = false;
 
 //dom elements globals
-const inputValue = document.getElementById('inItem');
-const inputImg = document.getElementById('inImageUrl');
-const listdom = document.getElementById('listdom');
-const formItems = document.getElementById('formItems');
-const imgShowFormItems = document.getElementById('imgShowFormItems');
-const inputFilter = document.getElementById('inFilter');
-const btns_add = document.getElementById('btns-add');
-const btns_update = document.getElementById('btns-update');
+let inputValue = document.getElementById('inItem');
+let inputImg = document.getElementById('inImageUrl');
+let listdom = document.getElementById('listdom');
+let formItems = document.getElementById('formItems');
+let imgShowFormItems = document.getElementById('imgShowFormItems');
+let inputFilter = document.getElementById('inFilter');
+let btns_add = document.getElementById('btns-add');
+let btns_update = document.getElementById('btns-update');
 
 //eventListeners
 //enter press on inputValue -> "submit" form
@@ -49,6 +49,8 @@ inputFilter.addEventListener('input', (e) => {
 
 //page on DOMContentLoaded -> load from localStorage
 document.addEventListener('DOMContentLoaded', () => {
+  getDOMElements();
+  const data = retrieveItems();
   ({ nextId, items } = retrieveItems());
   listItems = items ? items : [];
   filteredList = listItems;
@@ -66,6 +68,17 @@ window.addEventListener('beforeunload', () => {
 /* --------------------------------------- */
 /*          Functions - View related?      */
 /* --------------------------------------- */
+
+function getDOMElements() {
+  inputValue = document.getElementById('inItem');
+  inputImg = document.getElementById('inImageUrl');
+  listdom = document.getElementById('listdom');
+  formItems = document.getElementById('formItems');
+  imgShowFormItems = document.getElementById('imgShowFormItems');
+  inputFilter = document.getElementById('inFilter');
+  btns_add = document.getElementById('btns-add');
+  btns_update = document.getElementById('btns-update');
+}
 
 /**
  * Renders the contents of list

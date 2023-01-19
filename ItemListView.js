@@ -9,8 +9,10 @@ export class ItemListView {
   btns_add = document.getElementById('btns-add');
   btns_update = document.getElementById('btns-update');
 
+  controller
+
   constructor() {
-    //this.addEventListeners();
+    this.addEventListeners();
   }
 
   /**
@@ -125,5 +127,47 @@ export class ItemListView {
     }
   }
 
+  cancelUpdateItem() {
+
+    this.toggleAddItemForm();
+    //changeModeTo('add'); --> mv to controller
+    this.inputValue.value = '';
+    this.inputImg.value = '';
+    // this.workingOn = null; --> mv to controller
+  }
+
+  toggleAddItemForm(mode) {
+
+    this.formItems.classList.toggle('d-none');
+    this.imgShowFormItems.classList.toggle('d-none');
+    if (mode == 'add') enableBtns();
+    // else changeModeTo('add'); --> mv to controller
+    this.inputValue.focus();
+  }
+
+  addItem() {
+    if (this.inputValue.value.trim() == '') return;
+
+    const itemValue = this.inputValue.value.trim();
+    const itemImg = this.inputImg.value.trim();
+    this.inputValue.focus();
+    try {
+
+      const url = new URL(itemImg);
+    } catch (error) {
+      return;
+    }
+
+    this.inputValue.value = '';
+    this.inputImg.value = '';
+    this.inputValue.focus();
+
+    this.controller.addItem({
+      id: crypto.getRandomUUID,
+      value: itemValue,
+      imgUrl: itemImg,
+    });
+    toggleAddItemForm();
+  }
 }
 

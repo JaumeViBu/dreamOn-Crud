@@ -1,7 +1,7 @@
 import { Model } from '../Model';
 
 describe('CRUD model', () => {
-  it('model has a private data property, and we can acces it with getItemList method', () => {
+  it('model has a data property, and we can acces it with getItemList method', () => {
     //GIVEN
     const data = [
       { id: '1-1', value: 'image1', imgUrl: 'url1' },
@@ -22,7 +22,7 @@ describe('CRUD model', () => {
       { id: '1-5', value: 'image5', imgUrl: 'url5' },
     ]);
   });
-  it('model setItemList receives an itemList and saves it inside #data property', () => {
+  it('model setItemList receives an itemList and saves it inside data property', () => {
     //GIVEN
     const initialData = [
       { id: '1-1', value: 'image1', imgUrl: 'url1' },
@@ -42,5 +42,19 @@ describe('CRUD model', () => {
     expect(sut).toEqual([
       { id: '1-1', value: 'image1', imgUrl: 'url1' },
     ]);
+  });
+  it('Contains a method retrieveItems()', () => {
+    //GIVEN
+    //WHEN
+    const sut = typeof new Model().retrieveItems;
+    //THEN
+    expect(sut).toBe('function');
+  });
+  it('Contains a method storeItems()', () => {
+    //GIVEN
+    //WHEN
+    const sut = typeof new Model().storeItems;
+    //THEN
+    expect(sut).toBe('function');
   });
 });
