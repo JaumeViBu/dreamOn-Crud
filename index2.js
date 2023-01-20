@@ -9,7 +9,7 @@ let controller = new Controller(itemListView, model);
 
 model.retrieveItems();
 
-//TODO change ventListeners from html into view
+//TODO change eventListeners from html into view
 document.addEventListener('DOMContentLoaded', () => {
   itemListView.addEventListeners();
 });

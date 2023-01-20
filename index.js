@@ -1,7 +1,3 @@
-// import { Model } from './Model.js';
-// import { ItemListView } from './ItemListView.js';
-// import { Controller } from './Controller.js';
-
 //globals
 let listItems;
 let filteredList;
